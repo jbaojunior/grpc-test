@@ -34,7 +34,7 @@ import (
 
 // server is used to implement GrpcTestServer.
 type server struct {
-	pb.UnimplementedGrcpTestServer
+	pb.UnimplementedGrpcTestServer
 }
 
 // SayHello implements helloworld.GrpcTestServer

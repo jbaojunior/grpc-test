@@ -20,7 +20,7 @@ option java_multiple_files = true;
 package grpctest;
 
 // The service definition.
-service GrcpTest {
+service GrpcTest {
   // Sends a greeting
   rpc Msg (MsgRequest) returns (MsgReply) {}
 }
