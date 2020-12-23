@@ -25,13 +25,13 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/jbaojunior/grpc-test/helloworld"
+	pb "github.com/jbaojunior/grpc-test/proto"
 
 	"google.golang.org/grpc"
 )
 
 const (
-	defaultName = "What is the server?"
+	defaultQuestion = "What is the server?"
 )
 
 func main() {
@@ -53,18 +53,18 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
+	c := pb.NewGrcpTestClient(conn)
 
 	// Contact the server and print out its response.
-	name := defaultName
+	question := defaultQuestion
 	/*if len(os.Args) > 1 {
 		name = os.Args[1]
 	}*/
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: name})
+	r, err := c.Msg(ctx, &pb.MsgRequest{Server: question})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not send message: %v", err)
 	}
 	log.Printf("%s", r.GetMessage())
 }

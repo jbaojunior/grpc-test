@@ -4,10 +4,10 @@ RUN mkdir /tmp/binaries
 
 COPY . .
 
-WORKDIR /go/grpc_client
+WORKDIR /go/grpc-client
 RUN go build -o grpc-client . && chmod +x grpc-client && cp grpc-client /tmp/binaries/
 
-WORKDIR /go/grpc_server
+WORKDIR /go/grpc-server
 RUN go build -o grpc-server . && chmod +x grpc-server && cp grpc-server /tmp/binaries/
 
 FROM ubuntu

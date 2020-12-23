@@ -26,4 +26,14 @@ If want do a looping to test some kind of LB:
 docker run -it --rm --name grpc-client -e SERVER_ADDRESS=${SERVER_ADDRESS} --entrypoint /bin/bash jbaojunior/grpc-test -c 'while true; do /usr/local/bin/grpc-client; sleep 0.5; done'
 ``` 
 
+### Build docker
+```
+docker build . -t grpc-test
+```
+
+#### Update proto
+```
+protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto/grpc-test.proto
+```
+
 *Using https://grpc.io/docs/languages/go/quickstart and https://github.com/grpc/grpc-go as reference*

@@ -26,25 +26,25 @@ import (
 	"net"
 	"os"
 
-	pb "github.com/jbaojunior/grpc-test/helloworld"
+	pb "github.com/jbaojunior/grpc-test/proto"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/peer"
 )
 
-// server is used to implement helloworld.GreeterServer.
+// server is used to implement GrpcTestServer.
 type server struct {
-	pb.UnimplementedGreeterServer
+	pb.UnimplementedGrcpTestServer
 }
 
-// SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+// SayHello implements helloworld.GrpcTestServer
+func (s *server) Msg(ctx context.Context, in *pb.MsgRequest) (*pb.MsgReply, error) {
 	p, _ := peer.FromContext(ctx)
 	log.Printf("Received: %v\t ClientAddress: %v", in.GetName(), p.Addr.String())
 
 	host, _ := os.Hostname()
 	message := fmt.Sprintf("Server: %v", host)
-	return &pb.HelloReply{Message: message}, nil
+	return &pb.MsgReply{Message: message}, nil
 }
 
 func main() {
@@ -61,7 +61,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	log.Printf("Server running on port %v...", port)
-	pb.RegisterGreeterServer(s, &server{})
+	pb.RegisterGrcpTestServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
