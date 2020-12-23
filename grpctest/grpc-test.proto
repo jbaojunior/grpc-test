@@ -14,7 +14,7 @@
 
 syntax = "proto3";
 
-option go_package = "github.com/jbaojunior/grpc-test/proto";
+option go_package = "github.com/jbaojunior/grpc-test/grpctest";
 option java_multiple_files = true;
 
 package grpctest;
