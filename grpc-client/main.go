@@ -53,7 +53,7 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	c := pb.NewGrcpTestClient(conn)
+	c := pb.NewGrpcTestClient(conn)
 
 	// Contact the server and print out its response.
 	question := defaultQuestion

@@ -40,7 +40,7 @@ type server struct {
 // SayHello implements helloworld.GrpcTestServer
 func (s *server) Msg(ctx context.Context, in *pb.MsgRequest) (*pb.MsgReply, error) {
 	p, _ := peer.FromContext(ctx)
-	log.Printf("Received: %v\t ClientAddress: %v", in.GetName(), p.Addr.String())
+	log.Printf("Received: %v\t ClientAddress: %v", in.GetServer(), p.Addr.String())
 
 	host, _ := os.Hostname()
 	message := fmt.Sprintf("Server: %v", host)
@@ -61,7 +61,7 @@ func main() {
 	}
 	s := grpc.NewServer()
 	log.Printf("Server running on port %v...", port)
-	pb.RegisterGrcpTestServer(s, &server{})
+	pb.RegisterGrpcTestServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
