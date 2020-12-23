@@ -95,5 +95,5 @@ var _GrcpTest_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/grpc-test.proto",
+	Metadata: "grpctest/grpc-test.proto",
 }

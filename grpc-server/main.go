@@ -26,7 +26,7 @@ import (
 	"net"
 	"os"
 
-	pb "github.com/jbaojunior/grpc-test/proto"
+	pb "github.com/jbaojunior/grpc-test/grpctest"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/peer"

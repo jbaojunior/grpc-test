@@ -25,7 +25,7 @@ import (
 	"os"
 	"time"
 
-	pb "github.com/jbaojunior/grpc-test/proto"
+	pb "github.com/jbaojunior/grpc-test/grpctest"
 
 	"google.golang.org/grpc"
 )
