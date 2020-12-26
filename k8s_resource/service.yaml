@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: grpc-test
+  name: grpc-test
+spec:
+  ports:
+  - port: 5551
+    protocol: TCP
+    targetPort: 5551
+  selector:
+    app: grpc-test
+  sessionAffinity: None
+  type: ClusterIP
