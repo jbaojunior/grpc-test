@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
   labels:
     app: grpc-test
@@ -19,3 +19,7 @@ spec:
             port:
               number: 5551
         pathType: ImplementationSpecific
+  tls:
+    - secretName: grpc-test-tls
+      hosts:
+        - grpc-test.casa.com

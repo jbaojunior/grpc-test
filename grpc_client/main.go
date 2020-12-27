@@ -21,6 +21,7 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"log"
 	"os"
 	"time"
@@ -28,6 +29,7 @@ import (
 	pb "github.com/jbaojunior/grpc-test/grpctest"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 )
 
 const (
@@ -47,8 +49,17 @@ func main() {
 	}
 	address := server + ":" + port
 
-	// Set up a connection to the server.
-	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	// Verify if TLS is enable and set up a connection to the server
+	var conn *grpc.ClientConn
+	var err error
+	_, ok = os.LookupEnv("SERVER_TLS_ENABLE")
+	if !ok {
+		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	} else {
+		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
+		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock())
+	}
+
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
