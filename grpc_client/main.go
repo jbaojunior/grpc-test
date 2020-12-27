@@ -52,6 +52,8 @@ func main() {
 	// Verify if TLS is enable and set up a connection to the server
 	var conn *grpc.ClientConn
 	var err error
+	// Verify how much time the operation spend
+	start := time.Now()
 	_, ok = os.LookupEnv("SERVER_TLS_ENABLE")
 	if !ok {
 		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
@@ -77,5 +79,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("could not send message: %v", err)
 	}
-	log.Printf("%s", r.GetMessage())
+	t := time.Now()
+	elapsed := t.Sub(start)
+	log.Printf("%s %v", r.GetMessage(), elapsed)
 }
