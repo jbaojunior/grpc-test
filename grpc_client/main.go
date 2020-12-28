@@ -52,14 +52,15 @@ func main() {
 	// Verify if TLS is enable and set up a connection to the server
 	var conn *grpc.ClientConn
 	var err error
+	timeOut, _ := time.ParseDuration("5s")
 	// Verify how much time the operation spend
 	start := time.Now()
 	_, ok = os.LookupEnv("SERVER_TLS_ENABLE")
 	if !ok {
-		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithNoProxy())
 	} else {
 		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock())
+		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithNoProxy())
 	}
 
 	if err != nil {
@@ -73,7 +74,7 @@ func main() {
 	/*if len(os.Args) > 1 {
 		name = os.Args[1]
 	}*/
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
 	defer cancel()
 	r, err := c.Msg(ctx, &pb.MsgRequest{Server: question})
 	if err != nil {

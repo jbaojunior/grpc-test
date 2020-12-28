@@ -60,6 +60,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
+  defer lis.Close()
 	log.Printf("Server running on port %v...", port)
 	pb.RegisterGrpcTestServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
