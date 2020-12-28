@@ -57,10 +57,10 @@ func main() {
 	start := time.Now()
 	_, ok = os.LookupEnv("SERVER_TLS_ENABLE")
 	if !ok {
-		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithNoProxy())
+		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(timeOut))
 	} else {
 		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithNoProxy())
+		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock(), grpc.WithTimeout(timeOut))
 	}
 
 	if err != nil {
