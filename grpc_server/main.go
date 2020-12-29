@@ -67,7 +67,7 @@ func main() {
 	}
 
 	keepalive := keepalive.ServerParameters{
-		Time:    1 * time.Second,
+		Time:    300 * time.Second,
 		Timeout: 60 * time.Second,
 		//MaxConnectionAge:      60 * time.Second,
 		//MaxConnectionAgeGrace: 10 * time.Second,
