@@ -25,10 +25,12 @@ import (
 	"log"
 	"net"
 	"os"
+	"time"
 
 	pb "github.com/jbaojunior/grpc-test/grpctest"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/peer"
 )
 
@@ -59,8 +61,19 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := grpc.NewServer()
-  defer lis.Close()
+
+	keepAliveEnforce := keepalive.EnforcementPolicy{
+		MinTime: 100 * time.Millisecond,
+	}
+
+	keepalive := keepalive.ServerParameters{
+		Time:    1 * time.Second,
+		Timeout: 60 * time.Second,
+		//MaxConnectionAge:      60 * time.Second,
+		//MaxConnectionAgeGrace: 10 * time.Second,
+	}
+
+	s := grpc.NewServer(grpc.KeepaliveEnforcementPolicy(keepAliveEnforce), grpc.KeepaliveParams(keepalive))
 	log.Printf("Server running on port %v...", port)
 	pb.RegisterGrpcTestServer(s, &server{})
 	if err := s.Serve(lis); err != nil {

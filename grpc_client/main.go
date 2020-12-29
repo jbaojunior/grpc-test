@@ -30,6 +30,7 @@ import (
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/keepalive"
 )
 
 const (
@@ -53,14 +54,21 @@ func main() {
 	var conn *grpc.ClientConn
 	var err error
 	timeOut, _ := time.ParseDuration("5s")
+
+	keepalive := keepalive.ClientParameters{
+		Time:                10 * time.Second,
+		Timeout:             60 * time.Second,
+		PermitWithoutStream: true,
+	}
+
 	// Verify how much time the operation spend
 	start := time.Now()
 	_, ok = os.LookupEnv("SERVER_TLS_ENABLE")
 	if !ok {
-		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(timeOut))
+		conn, err = grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithKeepaliveParams(keepalive))
 	} else {
 		creds := credentials.NewTLS(&tls.Config{InsecureSkipVerify: true})
-		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock(), grpc.WithTimeout(timeOut))
+		conn, err = grpc.Dial(address, grpc.WithTransportCredentials(creds), grpc.WithBlock(), grpc.WithTimeout(timeOut), grpc.WithKeepaliveParams(keepalive))
 	}
 
 	if err != nil {
@@ -74,7 +82,7 @@ func main() {
 	/*if len(os.Args) > 1 {
 		name = os.Args[1]
 	}*/
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
 	r, err := c.Msg(ctx, &pb.MsgRequest{Server: question})
 	if err != nil {
@@ -82,5 +90,8 @@ func main() {
 	}
 	t := time.Now()
 	elapsed := t.Sub(start)
-	log.Printf("%s %v", r.GetMessage(), elapsed)
+	select {
+	case <-ctx.Done():
+		log.Printf("%s %v", r.GetMessage(), elapsed)
+	}
 }
