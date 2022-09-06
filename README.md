@@ -14,7 +14,9 @@ docker run -it --rm --name grpc-server -p 5551:5551 jbaojunior/grcp-test
 ### GRPC Client
 **Env:**<br>
 &nbsp;&nbsp;&nbsp;&nbsp;SERVER_ADDRESS: Server Address. Default is 127.0.0.1<br>
+
 &nbsp;&nbsp;&nbsp;&nbsp;SERVER_PORT: Server port. Default is 5551
+
 &nbsp;&nbsp;&nbsp;&nbsp;SERVER_TLS_ENABLE: Active TLS on client. If you pretend use Ningx ingress to test using TLS you need use this parameter.
 
 **Execute:**
