@@ -8,7 +8,7 @@ GRPC Test return server's hostname
 
 **Execute:**
 ```
-docker run -it --rm --name grpc-server -p 5551:5551 jbaojunior/grcp-test
+docker run -it --rm --name grpc-server -p 5551:5551 jbaojunior/grpc-test
 ```
 
 ### GRPC Client
