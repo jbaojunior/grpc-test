@@ -21,7 +21,7 @@ docker run -it --rm --name grpc-server -p 5551:5551 jbaojunior/grpc-test
 
 **Execute:**
 ```
-docker run -it --rm --name grpc-client jbaojunior/grpc-test grcp-client
+docker run -it --rm --name grpc-client jbaojunior/grpc-test grpc-client
 ``` 
 
 If want do a looping to test some kind of LB:
